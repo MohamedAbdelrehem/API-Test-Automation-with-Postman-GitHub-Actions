@@ -1,17 +1,26 @@
+# defining the name of the workflow
 name: Automated API tests using Postman CLI
-
+# this workflow will run whenever there is a push event to the repository
 on: push
 
 jobs:
+  # The name of the job will be run  
   automated-api-tests:
+  # the os we will run the workflow on (ubuntu last version)
     runs-on: ubuntu-latest
+    # steps of the workflow 
     steps:
       - uses: actions/checkout@v4
       - name: Install Postman CLI
+        # using curl to install postman CLI to the Linux (ubuntu) machine
         run: |
           curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
       - name: Login to Postman CLI
+      # This step logs into Postman CLI using an API key stored as a secret in GitHub's secrets management. 
+      # The API key is accessed with ${{ secrets.POSTMAN_API_KEY }}, 
+      # which ensures that it remains secure and isn't exposed in the workflow file.
         run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
       - name: Run API tests
+      # run the postman command in CLI and give it the collection and env ID to run the api test
         run: |
           postman collection run "39160494-f5cfab48-2a37-48ab-a6ce-690f9b901e88" -e "39160494-e647d3db-44c2-4ffb-a3ea-b8b9da55e306"

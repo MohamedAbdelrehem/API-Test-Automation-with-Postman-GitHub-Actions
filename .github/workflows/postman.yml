@@ -8,8 +8,11 @@ jobs:
   automated-api-tests:
   # the os we will run the workflow on (ubuntu last version)
     runs-on: ubuntu-latest
+    # permissions grants write access to the repository resources that the workflow interacts with
+    permissions: write
     # steps of the workflow 
     steps:
+      # use actions 
       - uses: actions/checkout@v4
       - name: Install Postman CLI
         # using curl to install postman CLI to the Linux (ubuntu) machine
